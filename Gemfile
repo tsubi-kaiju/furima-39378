@@ -61,3 +61,6 @@ end
 group :production do
   gem 'pg'
 end
+
+# ユーザー管理用のGemを導入
+gem 'devise'
