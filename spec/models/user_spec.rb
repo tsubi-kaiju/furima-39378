@@ -31,6 +31,24 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include "Password can't be blank"
       end
 
+      it 'passwordが6文字以上でも数字のみでは登録できない' do
+        @user.password = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include 'Password は英数字で設定してください'
+      end
+
+      it 'passwordが6文字以上でも英字のみでは登録できない' do
+        @user.password = 'abcdef'
+        @user.valid?
+        expect(@user.errors.full_messages).to include 'Password は英数字で設定してください'
+      end
+
+      it 'passwordが6文字以上でも全角では登録できない' do
+        @user.password = '一二三四五六'
+        @user.valid?
+        expect(@user.errors.full_messages).to include 'Password は英数字で設定してください'
+      end
+
       it 'passwordとpassword_confirmationが不一致では登録できない' do
         @user.password = '123456'
         @user.password_confirmation = '1234567'
@@ -88,6 +106,18 @@ RSpec.describe User, type: :model do
         @user.last_name = 'yamada'
         @user.valid?
         expect(@user.errors.full_messages).to include 'Last name を全角で入力してください'
+      end
+
+      it 'first_name_kanaが空では登録できない' do
+        @user.first_name_kana = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include "First name kana can't be blank"
+      end
+
+      it 'last_name_kanaが空では登録できない' do
+        @user.last_name_kana = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Last name kana can't be blank"
       end
 
       it 'first_name_kanaはひらがなでは登録できない' do
