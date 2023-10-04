@@ -10,8 +10,8 @@ class Product < ApplicationRecord
   has_one_attached :image
 
   with_options presence: true do
-    validates :name
-    validates :description
+    validates :name, length: { minimum: 1, maximum: 40 }
+    validates :description, length: { minimum: 1, maximum: 1000 }
     validates :price,
               numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 },
               format: { with: /\A[0-9]+\z/}
