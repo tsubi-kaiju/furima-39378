@@ -14,7 +14,7 @@ class Product < ApplicationRecord
     validates :description, length: { minimum: 1, maximum: 1000 }
     validates :price,
               numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999,
-              only_integer: true, message: "は300~9,999,999までの半角整数で入力してください" }
+                              only_integer: true, message: 'は300~9,999,999までの半角整数で入力してください' }
     validates :category_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :condition_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :shipping_fee_bearer_id, numericality: { other_than: 1, message: "can't be blank" }

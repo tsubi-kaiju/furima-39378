@@ -84,9 +84,9 @@ RSpec.describe Product, type: :model do
         expect(@product.errors.full_messages).to include("Price can't be blank")
       end
       it '販売価格が全角では保存できない' do
-        @product.price = "３００"
+        @product.price = '３００'
         @product.valid?
-        expect(@product.errors.full_messages).to include("Price は300~9,999,999までの半角整数で入力してください")
+        expect(@product.errors.full_messages).to include('Price は300~9,999,999までの半角整数で入力してください')
       end
       it '販売価格が300円未満では保存できない' do
         @product.price = 299
