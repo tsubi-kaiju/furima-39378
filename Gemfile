@@ -69,3 +69,10 @@ end
 
 # ユーザー管理用のGemを導入
 gem 'devise'
+
+# 画像加工用のGemを導入
+gem 'mini_magick'
+gem 'image_processing', '~> 1.2'
+
+# 選択肢用のGemを導入
+gem 'active_hash'
