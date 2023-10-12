@@ -132,7 +132,7 @@
       <% if @products.present? %>
         <% @products.each do |product| %>
         <li class='list'>
-          <%= link_to "#" do %>
+          <%= link_to product_path(product.id) do %>
           <div class='item-img-content'>
             <%= image_tag product.image, class: "item-img" %>
 
@@ -148,7 +148,7 @@
               <%= product.name %>
             </h3>
             <div class='item-price'>
-              <span><%= product.price %>円<br><%= product.shipping_fee_bearer.name %></span>
+              <span><%= number_to_currency(product.price, format: "%n%u", unit: "円", precision: 0) %><br><%= product.shipping_fee_bearer.name %></span>
               <div class='star-btn'>
                 <%= image_tag "star.png", class:"star-icon" %>
                 <span class='star-count'>0</span>
