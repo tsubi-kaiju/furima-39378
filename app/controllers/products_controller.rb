@@ -23,11 +23,10 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    if current_user.id == @product.user.id
-      # 売却済の商品の場合はトップページに遷移するコードを追記
-    else
+    if current_user.id != @product.user.id
       redirect_to root_path
     end
+    # 売却済の商品の場合はトップページに遷移するコードを追記
   end
 
   def update
