@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :edit]
+  before_action :authenticate_user!, only: [:new, :edit, :destroy]
   before_action :set_product, only: [:show, :edit, :update]
+  before_action :redirect_unless_owner, only: [:edit, :destroy]
 
   def index
     @products = Product.all.order('created_at DESC')
@@ -23,9 +24,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    if current_user.id != @product.user.id
-      redirect_to root_path
-    end
     # 売却済の商品の場合はトップページに遷移するコードを追記
   end
 
@@ -37,6 +35,12 @@ class ProductsController < ApplicationController
     end
   end
 
+  def destroy
+    product = Product.find(params[:id])
+    product.destroy
+    redirect_to root_path
+  end
+
   private
 
   def product_params
@@ -46,5 +50,10 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = Product.find(params[:id])
+  end
+
+  def redirect_unless_owner
+    return unless current_user.id != @product.user.id
+    redirect_to root_path
   end
 end
