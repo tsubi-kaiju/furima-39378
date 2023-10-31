@@ -52,7 +52,6 @@ class ProductsController < ApplicationController
   end
 
   def redirect_unless_owner
-    return unless current_user.id != @product.user.id
-    redirect_to root_path
+    redirect_to root_path if current_user.id == @product.user.id
   end
 end
