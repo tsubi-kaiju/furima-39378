@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
   def create
     @order_address = OrderAddress.new(order_params)
     if @order_address.valid?
+      pay_product
       @order_address.save
       redirect_to root_path
     else
@@ -22,8 +23,7 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order_address).permit(:postal_code, :prefecture_id, :city, :house_number, :building_name, :telephone_number).merge(
-      user_id: current_user.id, product_id: params[:product_id]
-    )
+      user_id: current_user.id, product_id: params[:product_id], token: params[:token])
   end
 
   def set_product
@@ -39,5 +39,13 @@ class OrdersController < ApplicationController
   def redirect_if_purchased
     redirect_to root_path if @product.order.present?
   end
-  
+
+  def pay_product
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY'] # PAYJPテスト秘密鍵
+    Payjp::Charge.create(
+      amount: @product.price,               # 商品の値段
+      card: order_params[:token],           # カードトークン
+      currency: 'jpy'                       # 通貨の種類（日本円）
+    )
+  end
 end
