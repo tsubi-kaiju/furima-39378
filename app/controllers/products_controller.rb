@@ -24,7 +24,7 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    # 売却済の商品の場合はトップページに遷移するコードを追記
+    redirect_to root_path if @product.order.present?
   end
 
   def update
@@ -52,7 +52,6 @@ class ProductsController < ApplicationController
   end
 
   def redirect_unless_owner
-    return unless current_user.id != @product.user.id
-    redirect_to root_path
+    redirect_to root_path unless current_user.id == @product.user.id
   end
 end

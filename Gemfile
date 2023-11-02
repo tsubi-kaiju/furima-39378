@@ -76,3 +76,6 @@ gem 'image_processing', '~> 1.2'
 
 # 選択肢用のGemを導入
 gem 'active_hash'
+
+# PAY.JP APIを導入
+gem 'payjp'

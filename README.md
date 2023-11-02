@@ -12,7 +12,7 @@
 
 ### Association
 - has_many :products
-- has_many :purchase_histories
+- has_many :orders
 
 
 ## productsテーブル
@@ -33,7 +33,7 @@
 - has_one    :purchase_history
 
 
-## purchase_historiesテーブル
+## ordersテーブル
 | Column                 | Type       | Options                        |
 | ---------------------- | ---------- | ------------------------------ |
 | user                   | references | null: false, foreign_key: true |
@@ -42,10 +42,10 @@
 ### Association
 - belongs_to :user
 - belongs_to :product
-- has_one    :shipping_address
+- has_one    :address
 
 
-## shipping_addressesテーブル
+## addressesテーブル
 | Column                 | Type       | Options                        |
 | ---------------------- | ---------- | ------------------------------ |
 | purchase_histories     | references | null: false, foreign_key: true |
@@ -57,4 +57,4 @@
 | telephone_number       | string     | null: false                    |
 
 ### Association
-- belongs_to :purchase_history
+- belongs_to :order
