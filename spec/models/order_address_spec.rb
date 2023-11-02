@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe OrderAddress, type: :model do
   describe '購入情報の保存' do
     before do
-      user = FactoryBot.create(:user)
-      product = FactoryBot.create(:product, user_id:user.id)
-      @order_address = FactoryBot.build(:order_address, user_id: user.id, product_id: product.id)
+      @user = FactoryBot.create(:user)
+      @product = FactoryBot.create(:product)
+      @order_address = FactoryBot.build(:order_address, user_id: @user.id, product_id: @product.id)
+      sleep 0.1   # テストコード実行の安定性向上のため（データ生成待ち）
     end
 
     context '内容に問題ない場合' do
@@ -55,6 +56,16 @@ RSpec.describe OrderAddress, type: :model do
       end
       it 'telephone_numberがハイフンを含んでいると保存できないこと' do
         @order_address.telephone_number = '12-3456-7890'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Telephone number is invalid. Exclude hyphen(-)')
+      end
+      it 'telephone_numberが9桁以下では保存できないこと' do
+        @order_address.telephone_number = '12345678'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Telephone number is invalid. Exclude hyphen(-)')
+      end
+      it 'telephone_numberが12桁以上では保存できないこと' do
+        @order_address.telephone_number = '123456789012'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Telephone number is invalid. Exclude hyphen(-)')
       end
