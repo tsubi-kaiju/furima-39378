@@ -10,9 +10,9 @@ class Product < ApplicationRecord
   has_one_attached :image
   has_one :order
 
+  validates :name, length: { minimum: 1, maximum: 40 }
+  validates :description, length: { minimum: 1, maximum: 1000 }
   with_options presence: true do
-    validates :name, length: { minimum: 1, maximum: 40 }
-    validates :description, length: { minimum: 1, maximum: 1000 }
     validates :price,
               numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999,
                               only_integer: true, message: 'は300~9,999,999までの半角整数で入力してください' }
@@ -23,4 +23,5 @@ class Product < ApplicationRecord
     validates :shipping_duration_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :image
   end
+  
 end
